@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>My Weekly Menu Planner</h2>
+  <ion-card *ngFor="let item of dayList">
+    <ion-card-header>
+      <b>{{item.dayName | uppercase}} [{{item.recDate}}]</b>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let detail of item.details">
+          <p>
+            <b>{{detail.type}}:</b>&nbsp;{{detail.menu + detail.menuWith}} 
+            <br/>
+            <b>Notes:</b> {{detail.notification}}&nbsp;<ion-icon ios="ios-checkbox" md="md-checkbox" *ngIf="detail.doneNote" style="color:blue;"></ion-icon> <ion-icon ios="ios-star" md="md-star" *ngIf="!detail.doneNote && detail.notification" style="color:red;"></ion-icon>
+          </p>
+        </ion-item>
+      </ion-list>
+     </ion-card-content>
+</ion-card>
+
+</ion-content>
