@@ -1,10 +1,18 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Home</ion-title>
   </ion-navbar>
 </ion-header>
 
+
 <ion-content padding>
+  <ion-refresher (ionRefresh)="getMenu($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>  
+
   <h2>My Weekly Menu Planner</h2>
   <ion-card *ngFor="let item of dayList">
     <ion-card-header>
@@ -12,15 +20,23 @@
     </ion-card-header>
     <ion-card-content>
       <ion-list>
-        <ion-item *ngFor="let detail of item.details">
+        <ion-item-sliding *ngFor="let detail of item.details">
+          <ion-item>
           <p>
             <b>{{detail.type}}:</b>&nbsp;{{detail.menu + detail.menuWith}} 
             <br/>
             <b>Notes:</b> {{detail.notification}}&nbsp;<ion-icon ios="ios-checkbox" md="md-checkbox" *ngIf="detail.doneNote" style="color:blue;"></ion-icon> <ion-icon ios="ios-star" md="md-star" *ngIf="!detail.doneNote && detail.notification" style="color:red;"></ion-icon>
           </p>
         </ion-item>
+         <ion-item-options side="right">
+            <a ion-button href='{{detail.url}}' target="_blank" *ngIf="detail.url">
+                <ion-icon name="link"></ion-icon>
+                view
+            </a>
+         </ion-item-options>
+        </ion-item-sliding>
       </ion-list>
      </ion-card-content>
-</ion-card>
+  </ion-card>
 
 </ion-content>

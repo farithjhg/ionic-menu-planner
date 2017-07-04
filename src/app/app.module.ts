@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
+import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -20,6 +21,7 @@ import {DataService} from '../services/data.service';
     AboutPage,
     ContactPage,
     HomePage,
+    LoginPage,
     TabsPage
   ],
   imports: [
@@ -33,10 +35,11 @@ import {DataService} from '../services/data.service';
     AboutPage,
     ContactPage,
     HomePage,
+    LoginPage,
     TabsPage
   ],
   providers: [
-    StatusBar,
+    StatusBar, 
     SplashScreen,
     DataService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

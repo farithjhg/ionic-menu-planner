@@ -3,11 +3,12 @@ import {Http, URLSearchParams, Response, Headers, RequestOptions} from '@angular
 import {Observable} from 'rxjs/Rx'
 import {DaylyMenu} from '../model/DaylyMenu'
 import {Meal} from '../model/Meal'
+import {AppSettings} from '../model/AppSettings';
 
 @Injectable()
 export class DataService {
 
-  private _BASE_URL = "https://weekly-menu-planner.herokuapp.com";
+  private _BASE_URL = AppSettings.BASE_URL;
   //Dayly Menu URLs
   private _urlMenu  = this._BASE_URL+"/rest/weeklymenu/actual";
   private _urlDaylyAdd  = this._BASE_URL+"/rest/weeklymenu/add";
@@ -25,27 +26,22 @@ export class DataService {
 
   //Login data
   private OauthLoginUrl = this._BASE_URL+'/oauth/token';
-  private clientId = '0912747597133';
-  private secretId = '33b17e044ee6a4fa383f46ec6e28ea1d';
-  private userName = 'admin';
-  private password = 'master';
 
   constructor(public http: Http) { }
 
-  login() : Observable<any> {
+  login(username :string, password : string) : Observable<any> {
      let headers = new Headers({ 'Content-Disposition': 'form-data',
-                                 'Authorization': 'Basic ' +btoa(this.clientId+':'+this.secretId)});
+                                 'Authorization': 'Basic ' +btoa(AppSettings.CLIENTE_ID+':'+AppSettings.SECRET_ID)});
 
      let options       = new RequestOptions({ headers: headers }); // Create a request option
 
      let params : URLSearchParams = new URLSearchParams();
-     params.set('username', this.userName);
-     params.set('password', this.password);
-     params.set('scope', 'read');
+     params.set('username', username);
+     params.set('password', password)
+     params.set('scope', AppSettings.SCOPE);
      params.set('grant_type', 'password');
      
       return this.http.post(this.OauthLoginUrl, params, options)
-        .timeout(3000)
         .map(this.handleData)
         .catch(this.handleError);      
   }
@@ -67,7 +63,6 @@ export class DataService {
 
     return this.http
       .get(this._urlMenu,options)
-      .timeout(3000)
       .map((res:Response) => res.json())
       .catch(this.handleError); 
   }  
